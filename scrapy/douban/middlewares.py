@@ -154,7 +154,7 @@ class ProxyMiddleware(object):
         # print("1"+html.decode())
         # print(json.loads(html)["proxy"])
         # request.meta['proxy'] = json.loads(html)["proxy"]
-        #request.meta['proxy'] ="127.0.0.1:1080"
+        request.meta['proxy'] ="58.218.214.137:9930"
         # 随机选取一个useragent
         agent = random.choice(self.userAgentList)
         print(agent)

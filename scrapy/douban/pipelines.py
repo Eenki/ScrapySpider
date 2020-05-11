@@ -7,7 +7,7 @@ import douban.database as db
 import pymysql
 from twisted.enterprise import adbapi   # 此模块专门用来做数据库处理
 from pymysql import cursors
-from douban.items import Comment, BookMeta, MovieMeta, Subject,ArticleItem
+from douban.items import MovieMeta, Subject,ArticleItem
 from scrapy import Request
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.utils.misc import arg_to_iter
