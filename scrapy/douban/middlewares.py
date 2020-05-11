@@ -18,7 +18,7 @@ from scrapy.http.response.html import HtmlResponse
 
 class SeleniumDownloadMiddleware(object):
     def __init__(self):
-        self.driver = webdriver.Chrome(executable_path=r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
+        self.driver = webdriver.Chrome(executable_path=r"C:\Users\Eenki\AppData\Local\Google\Chrome\Application\chromedriver.exe")
 
     def process_request(self,request,spider):
         self.driver.get(request.url)
@@ -154,7 +154,7 @@ class ProxyMiddleware(object):
         # print("1"+html.decode())
         # print(json.loads(html)["proxy"])
         # request.meta['proxy'] = json.loads(html)["proxy"]
-        request.meta['proxy'] ="58.218.214.137:9930"
+        request.meta['proxy'] ="58.218.214.146:16503"
         # 随机选取一个useragent
         agent = random.choice(self.userAgentList)
         print(agent)
