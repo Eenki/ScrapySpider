@@ -8,7 +8,7 @@ from douban.items import ArticleItem
 class JsSpiderSpider(CrawlSpider):
     name = 'jianshu_article'
     allowed_domains = ['jianshu.com']
-    start_urls = ['https://www.jianshu.com']
+    start_urls = ['https://www.jianshu.com/p/b2e13d735906','https://www.jianshu.com/p/eed578b3e0c8','https://www.jianshu.com/p/e13a4ef4e7c7']
 
     # rules = (
     #     Rule(LinkExtractor(allow=r'.*/p/[0-9a-z]{12}$'), callback='parse_detail', follow=True),

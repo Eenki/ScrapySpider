@@ -8,9 +8,10 @@
 import random
 import time
 import urllib
-import json
-from bs4 import BeautifulSoup
-from scrapy import signals
+import requests
+import time
+import datetime
+t = time.time()
 from scrapy import signals
 from selenium import webdriver
 import time
@@ -97,18 +98,30 @@ class ProxyMiddleware(object):
 
     def process_request(self, request, spider):
         #设置代理
-        # url = 'http://127.0.0.1:5010/get/'
-        # html_one = urllib.request.Request(url)
-        # html_one.add_header('User-Agent', 'Mozilla/6.0')
-        # html_one = urllib.request.urlopen(html_one)
-        # html = html_one.read()
-        # print("1"+html.decode())
-        # print(json.loads(html)["proxy"])
-        # request.meta['proxy'] = json.loads(html)["proxy"]
-        request.meta['proxy'] ="58.218.92.65:4814"
+        #request.meta['proxy'] = "127.0.0.1:30808"
         # 随机选取一个useragent
         agent = random.choice(self.userAgentList)
         print(agent)
         request.headers['User-Agent'] = agent
+
+    def process_response(self, request, response, spider):
+        '''对返回的response处理'''
+        # 如果返回的response状态不是200，重新生成当前request对象
+        if response.status != 200:
+            try:
+                url = 'http://http.tiqu.alicdns.com/getip3?num=1&type=1&pro=440000&city=441900&yys=0&port=1&time=1&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=&gm=4'
+                html_one = urllib.request.Request(url)
+                html_one.add_header('User-Agent', 'Mozilla/6.0')
+                html_one = urllib.request.urlopen(html_one)
+                html = html_one.read()
+                print(html)
+                print(str(html).split('\'')[1].split("\\")[0])
+                request.meta['proxy'] = str(html).split('\'')[1].split("\\")[0]
+                return request
+            except Exception as e:
+                return response
+        return response
+
+
 
 
