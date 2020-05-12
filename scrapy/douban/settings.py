@@ -72,7 +72,7 @@ DOWNLOAD_TIMEOUT = 15
 # 设置启用下载器中间件
 DOWNLOADER_MIDDLEWARES = {
     'douban.middlewares.ProxyMiddleware': 543,
-    #'douban.middlewares.SeleniumDownloadMiddleware': 543,
+    'douban.middlewares.SeleniumDownloadMiddleware': 543,
     # 'douban.middlewares.RandomUserAgentMiddleware': 543,
     # 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 }

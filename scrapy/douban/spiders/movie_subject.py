@@ -19,7 +19,6 @@ class MovieSubjectSpider(CrawlSpider):
     #
     # rules定义进行内容页字段的提取规则
     # Link Extractor定义从爬取到的页面使用正则匹配提取以/ subject /开头、以subject-page结尾的豆瓣id，每一个爬取到的url页面数据使用callback解析
-    # 例：https: // movie.douban.com / subject / 2364086 /?from=subject - page 隐形人界面
     # follow=True(跟进), 爬虫会在爬取的页面中再寻找符合规则的url，如此循环，直到把全站爬取完毕
     # , process_value = self.process_value
     def process_value(value):

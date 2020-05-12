@@ -19,6 +19,7 @@ from scrapy.http.response.html import HtmlResponse
 class SeleniumDownloadMiddleware(object):
     def __init__(self):
         self.driver = webdriver.Chrome(executable_path=r"C:\Users\Eenki\AppData\Local\Google\Chrome\Application\chromedriver.exe")
+        #self.driver = webdriver.Chrome(executable_path=r" ")
 
     def process_request(self,request,spider):
         self.driver.get(request.url)
@@ -40,46 +41,23 @@ class SeleniumDownloadMiddleware(object):
 # spider中间件
 # 中间件使爬虫更加健硕
 class DoubanSpiderMiddleware(object):
-    # Not all methods need to be defined. If a method is not defined,
-    # scrapy acts as if the spider middleware does not modify the
-    # passed objects.
-
     @classmethod
     def from_crawler(cls, crawler):
-        # This method is used by Scrapy to create your spiders.
         s = cls()
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
 
     def process_spider_input(self, response, spider):
-        # Called for each response that goes through the spider
-        # middleware and into the spider.
-
-        # Should return None or raise an exception.
         return None
 
     def process_spider_output(self, response, result, spider):
-        # Called with the results returned from the Spider, after
-        # it has processed the response.
-
-        # Must return an iterable of Request, dict or Item objects.
         for i in result:
             yield i
 
     def process_spider_exception(self, response, exception, spider):
-        # Called when a spider or process_spider_input() method
-        # (from other spider middleware) raises an exception.
-
-        # Should return either None or an iterable of Response, dict
-        # or Item objects.
         pass
 
     def process_start_requests(self, start_requests, spider):
-        # Called with the start requests of the spider, and works
-        # similarly to the process_spider_output() method, except
-        # that it doesn’t have a response associated.
-
-        # Must return only requests (not items).
         for r in start_requests:
             yield r
 
@@ -89,46 +67,19 @@ class DoubanSpiderMiddleware(object):
 
 # 下载器中间件
 class DoubanDownloaderMiddleware(object):
-    # Not all methods need to be defined. If a method is not defined,
-    # scrapy acts as if the downloader middleware does not modify the
-    # passed objects.
-
     @classmethod
     def from_crawler(cls, crawler):
-        # This method is used by Scrapy to create your spiders.
         s = cls()
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
 
     def process_request(self, request, spider):
-        # Called for each request that goes through the downloader
-        # middleware.
-
-        # Must either:
-        # - return None: continue processing this request
-        # - or return a Response object
-        # - or return a Request object
-        # - or raise IgnoreRequest: process_exception() methods of
-        #   installed downloader middleware will be called
         return None
 
     def process_response(self, request, response, spider):
-        # Called with the response returned from the downloader.
-
-        # Must either;
-        # - return a Response object
-        # - return a Request object
-        # - or raise IgnoreRequest
         return response
 
     def process_exception(self, request, exception, spider):
-        # Called when a download handler or a process_request()
-        # (from other downloader middleware) raises an exception.
-
-        # Must either:
-        # - return None: continue processing this exception
-        # - return a Response object: stops process_exception() chain
-        # - return a Request object: stops process_exception() chain
         pass
 
     def spider_opened(self, spider):
@@ -154,44 +105,10 @@ class ProxyMiddleware(object):
         # print("1"+html.decode())
         # print(json.loads(html)["proxy"])
         # request.meta['proxy'] = json.loads(html)["proxy"]
-        request.meta['proxy'] ="58.218.214.146:16503"
+        request.meta['proxy'] ="58.218.92.65:4814"
         # 随机选取一个useragent
         agent = random.choice(self.userAgentList)
         print(agent)
         request.headers['User-Agent'] = agent
-
-
-# 代理扫描检测
-class ProxyScanVerification():
-    def __init__(self):
-        self.IPList_61()
-
-    def IPList_61(self):
-        for q in [1, 2,3,4,5,6,7,8,9]:
-            url = 'http://www.66ip.cn/' + str(q) + '.html'
-            html_one  = urllib.request.Request(url)
-            html_one .add_header('User-Agent', 'Mozilla/6.0')
-            html_one  = urllib.request.urlopen(html_one)
-            html = html_one.read().decode('utf-8')
-            if html != None:
-                print(html)
-                iplist = BeautifulSoup(html, 'lxml')
-                iplist = iplist.find_all('tr')
-                i = 2
-                for ip in iplist:
-                    if i <= 0:
-                        loader = ''
-                        # print(ip)
-                        j = 0
-                        for ipport in ip.find_all('td', limit=2):
-                            if j == 0:
-                                loader += ipport.text.strip() + ':'
-                            else:
-                                loader += ipport.text.strip()
-                            j = j + 1
-                        # .inspect_ip(loader)
-                    i = i - 1
-            time.sleep(1)
-
 
 
