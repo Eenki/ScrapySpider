@@ -1,24 +1,40 @@
 # -*- coding: utf-8 -*-
+import re
+
 import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
+import douban.database as db
 from douban.items import ArticleItem
 
-
+cursor = db.connection.cursor()
 class JsSpiderSpider(CrawlSpider):
     name = 'jianshu_article'
     allowed_domains = ['jianshu.com']
-    start_urls = ['https://www.jianshu.com/p/b2e13d735906','https://www.jianshu.com/p/eed578b3e0c8','https://www.jianshu.com/p/e13a4ef4e7c7']
+    start_urls = ['https://www.jianshu.com/']
 
     # rules = (
     #     Rule(LinkExtractor(allow=r'.*/p/[0-9a-z]{12}$'), callback='parse_detail', follow=True),
     #     # 通过对url分析，文章id是由0-9数字和a-z小写字母组成。正则表达式里面.*表示可有可无
     # )
-
+    def process_value(value):
+        #print("dsmalvbnufeoabvfahucdsnajchdsauivbfahvudsahvufhave9faihvf0jvif")
+        m=re.findall("[0-9a-z]{12}", value)
+        if m:
+            sql = 'SELECT id FROM article WHERE article_id=\'%s\'' % m[0]
+            #print(sql)
+            cursor.execute(sql)
+            exist = cursor.fetchone()
+            if not exist:
+                return value
+            else:
+                return None
+        else:
+            return None
 
     rules = (
-        Rule(LinkExtractor(allow=r'.*/p/[0-9a-z]{12}$'), callback='parse_detail', follow=True),
-        # 通过对url分析，文章id是由0-9数字和a-z小写字母组成。正则表达式里面.*表示可有可无
+        Rule(LinkExtractor(allow=(r'.*/p/[0-9a-z]{12}$')), callback='parse_detail', follow=True),
+        # 通过对url分析，文章id是由0-9数字和a-z小写字母组成。正则表达式里面.*表示可有可无 ,process_value = process_value
     )
 
     def parse_detail(self, response):

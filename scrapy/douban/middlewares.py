@@ -27,11 +27,22 @@ class SeleniumDownloadMiddleware(object):
         time.sleep(1)
         try:
             while True:
-                showMore = self.driver.find_element_by_class_name("show-more")
+                if request.url != "https://www.jianshu.com/":
+                    break
+                for i in range(1000):
+                    js = 'window.scrollTo(0,%s)' % (i * 100)
+                self.driver.execute_script(js)
+                time.sleep(1.5)
+                for i in range(1000):
+                    js = 'window.scrollTo(0,%s)' % (i * 100)
+                self.driver.execute_script(js)
+                time.sleep(1.5)
+                showMore = self.driver.find_element_by_class_name("load-more")
                 showMore.click()
-                #time.sleep(0.3)
                 if not showMore:
                     break
+
+
         except:
             pass
         source = self.driver.page_source
