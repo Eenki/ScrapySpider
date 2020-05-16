@@ -19,7 +19,7 @@ from scrapy.http.response.html import HtmlResponse
 
 class SeleniumDownloadMiddleware(object):
     def __init__(self):
-        self.driver = webdriver.Chrome(executable_path=r"C:\Users\Eenki\AppData\Local\Google\Chrome\Application\chromedriver.exe")
+        self.driver = webdriver.Chrome(executable_path=r"C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe")
         #self.driver = webdriver.Chrome(executable_path=r" ")
 
     def process_request(self,request,spider):
