@@ -62,7 +62,7 @@ class DoubanPipeline(object):
         cursor.execute(sql)
         return cursor.fetchone()
     def insert_item(self,item):
-        sql = 'insert into article(title,content,author,avatar,pub_time,article_id,origin_url,read_count,like_count,words_count,comment_count,subjects) values(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')' % (item['title'],item['content'],item['author'],item['avatar'],item['pub_time'],item['article_id'],item['origin_url'],item['read_count'],item['like_count'],item['words_count'],item['comment_count'],item['subjects'])
+        sql = 'insert into article(title,content,author,avatar,pub_time,article_id,origin_url,read_count,like_count,words_count,subjects) values(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')' % (item['title'],item['content'],item['author'],item['avatar'],item['pub_time'],item['article_id'],item['origin_url'],item['read_count'],item['like_count'],item['words_count'],item['subjects'])
         cursor.execute(sql)
         return db.connection.commit()
     # def insert_item(self,item):

@@ -68,7 +68,6 @@ class JsSpiderSpider(CrawlSpider):
             origin_url = origin_url,
             article_id = article_id,
             words_count = words_count,
-            comment_count = "",
             like_count = like_count,
             read_count = read_count,
             subjects = subjects

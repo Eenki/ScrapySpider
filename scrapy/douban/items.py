@@ -68,5 +68,4 @@ class ArticleItem(Item):
     read_count = Field()
     like_count = Field()
     words_count = Field()
-    comment_count = Field()
     subjects = Field()
