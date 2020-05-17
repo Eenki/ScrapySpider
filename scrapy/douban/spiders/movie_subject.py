@@ -41,8 +41,6 @@ class MovieSubjectSpider(CrawlSpider):
     )
 
 
-
-
     def cookie(self, request):
         # 随机生成字符串
         bid = ''.join(random.choice(string.ascii_letters + string.digits) for x in range(11))

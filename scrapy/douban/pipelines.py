@@ -88,7 +88,6 @@ class DoubanPipeline(object):
                 try:
                     self.save_movie_meta(item)
                 except Exception as e:
-                    #print(item)
                     print(e)
             else:
                 self.update_movie_meta(item)
@@ -96,13 +95,11 @@ class DoubanPipeline(object):
             '''
             ArticleItem
             '''
-            print("1111")
             exist = self.get_ArticleItem(item)
             if not exist:
                 try:
                     self.insert_item(item)
                 except Exception as e:
-                    #print(item)
                     print(e)
         return item
 
