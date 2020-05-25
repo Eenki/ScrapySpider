@@ -15,7 +15,7 @@ cursor = db.connection.cursor()
 class MovieSubjectSpider(CrawlSpider):
     name = 'movie_subject'
     allowed_domains = ['movie.douban.com']
-    start_urls = ['https://movie.douban.com/tag/#/','https://movie.douban.com/tag/#/?sort=S&range=0,10&tags=']
+    start_urls = ['https://movie.douban.com/tag/#/?sort=S']
     # rules定义进行内容页字段的提取规则
     # Link Extractor定义从爬取到的页面使用正则匹配提取以/ subject /开头、以subject-page结尾的豆瓣id，每一个爬取到的url页面数据使用callback解析
     # follow=True(跟进), 爬虫会在爬取的页面中再寻找符合规则的url，如此循环，直到把全站爬取完毕
@@ -57,8 +57,11 @@ class MovieSubjectSpider(CrawlSpider):
 
     #正则匹配获取各网页id
     def get_douban_id(self, subject, response):
-        subject['douban_id'] = re.search('\d+',response.url,re.M|re.I).group()
-        return subject
+        try:
+            subject['douban_id'] = re.search('\d+',response.url,re.M|re.I).group()
+            return subject
+        except:
+            return None
 
     # 回调函数
     # 定义返回响应之后如何解析
