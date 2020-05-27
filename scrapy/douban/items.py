@@ -21,8 +21,6 @@ class MovieMeta(Item):
     cover = Field()
     # 电影名称
     name = Field()
-    # slug
-    slug = Field()
     # 上映年份
     year = Field()
     # 导演

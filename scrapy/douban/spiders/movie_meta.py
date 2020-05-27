@@ -4,7 +4,6 @@
 
 import string
 import random
-import douban.util as util
 import douban.database as db
 import douban.validator as validator
 from scrapy import Request, Spider
@@ -17,7 +16,9 @@ class MovieMetaSpider(Spider):
     name = 'movie_meta'
     allowed_domains = ["movie.douban.com"]
     # 从数据库取出豆瓣id并降序排列
-    sql = 'SELECT * FROM subjects WHERE type="movie" AND douban_id NOT IN (SELECT douban_id FROM movies) ORDER BY douban_id DESC'
+    #sql = 'SELECT * FROM subjects WHERE type="movie" AND douban_id NOT IN (SELECT douban_id FROM movies) ORDER BY douban_id DESC'
+    # 更新
+    sql = 'SELECT * FROM subjects'
     # 执行sql语句
     cursor.execute(sql)
     # 接收返回结果
@@ -40,10 +41,11 @@ class MovieMetaSpider(Spider):
             }
             yield Request(url, cookies=cookies)
 
+    #正则表达式提取数据
     def get_douban_id(self, meta, response):
         meta['douban_id'] = response.url[33:-1]
         return meta
-
+    #xpath提取数据
     def get_type(self, meta, response):
         regx = '//text()[preceding-sibling::span[text()="集数:"]][following-sibling::br]'
         data = response.xpath(regx).extract()
@@ -70,9 +72,6 @@ class MovieMetaSpider(Spider):
             meta['name'] = data[0][:-5].strip()
         return meta
 
-    def get_slug(self, meta, response):
-        meta['slug'] = util.shorturl(meta['douban_id'])
-        return meta
 
     def get_year(self, meta, response):
         regx = '//span[@class="year"]/text()'
@@ -215,5 +214,4 @@ class MovieMetaSpider(Spider):
             self.get_votes(meta, response)
             self.get_tags(meta, response)
             self.get_storyline(meta, response)
-            self.get_slug(meta, response)
             return meta
