@@ -22,22 +22,22 @@ DOWNLOAD_DELAY = 0.2
 
 #多线程
 #每个IP并发请求数
-CONCURRENT_REQUESTS_PER_IP = 100
+CONCURRENT_REQUESTS_PER_IP = 30
 #并发请求数
-CONCURRENT_REQUESTS = 300
+CONCURRENT_REQUESTS = 10
 #目标域名并发请求数
-CONCURRENT_REQUESTS_PER_DOMAIN = 100
-
+CONCURRENT_REQUESTS_PER_DOMAIN = 20
 # 启用Cookie
 COOKIES_ENABLED = False
 RETRY_ENABLED = False
 
 # 设置超时
-DOWNLOAD_TIMEOUT = 3
+DOWNLOAD_TIMEOUT = 5
 
 # 设置启用下载器中间件
 DOWNLOADER_MIDDLEWARES = {
-    'douban.middlewares.ProxyMiddleware': 543,
+    'douban.middlewares.UserAgentMiddleware': 540,
+    'douban.middlewares.ProxyMiddleware': 541,
     'douban.middlewares.SeleniumDownloadMiddleware': 543,
 }
 

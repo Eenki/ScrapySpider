@@ -56,14 +56,25 @@ class MovieMeta(Item):
 
 #简书
 class ArticleItem(Item):
+    # 标题
     title = Field()
+    # 内容
     content = Field()
+    # 文章id
     article_id = Field()
+    # url
     origin_url = Field()
+    # 作者
     author = Field()
+    # 头像
     avatar = Field()
+    # 发表时间
     pub_time = Field()
+    # 阅读数
     read_count = Field()
+    # 喜欢数
     like_count = Field()
+    # 字数
     words_count = Field()
+    # 专题
     subjects = Field()

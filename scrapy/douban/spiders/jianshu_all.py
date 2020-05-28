@@ -47,9 +47,11 @@ class JsSpiderSpider(CrawlSpider):
         words_count = response.xpath("//div/span/text()").get()
         like_count = response.xpath("//span[@class='_1LOh_5']/text()").get()
         read_count = response.xpath("//div/span[last()]/text()").get()
-        # '字数 1657'、'评论 38'、'喜欢 244'、'阅读 8292' 需要用空格符分隔开
+        # 字数 574，空格分开
         words_count = words_count.split(" ")[-1]
+        # 412人点赞
         like_count = like_count.split("人")[0]
+        # 阅读 39,843，空格分开
         read_count = read_count.split(" ")[-1]
         # 让返回来的列表变成字符串，以逗号分开
         subjects = ",".join(response.xpath("//div[@class='_2Nttfz']/a/span/text()").getall())

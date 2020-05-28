@@ -61,13 +61,16 @@ class DoubanPipeline(object):
         print(sql)
         cursor.execute(sql)
         return cursor.fetchone()
+
     def insert_item(self,item):
         sql = 'insert into article(title,content,author,avatar,pub_time,article_id,origin_url,read_count,like_count,words_count,subjects) values(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')' % (item['title'],item['content'],item['author'],item['avatar'],item['pub_time'],item['article_id'],item['origin_url'],item['read_count'],item['like_count'],item['words_count'],item['subjects'])
         cursor.execute(sql)
         return db.connection.commit()
-    # def insert_item(self,item):
-    #     print(self._sql)
-    #     cursor.execute(self.sql,(item['title'],item['content'],item['author'],item['avatar'],item['pub_time'],item['article_id'],item['origin_url'],item['read_count'],item['like_count'],item['words_count'],item['comment_count'],item['subjects']))
+
+    def update_item(self, item):
+        sql = 'update article set title=\'%s\',content=\'%s\',author=\'%s\',avatar=\'%s\',pub_time=\'%s\',article_id=\'%s\',origin_url=\'%s\',read_count=\'%s\',like_count=\'%s\',words_count=\'%s\',subjects=\'%s\' where article_id=\'%s\''  % (item['title'],item['content'],item['author'],item['avatar'],item['pub_time'],item['article_id'],item['origin_url'],item['read_count'],item['like_count'],item['words_count'],item['subjects'],item['article_id'])
+        cursor.execute(sql)
+        return db.connection.commit()
 
     # 写入数据库操作
     def process_item(self, item, spider):
@@ -79,6 +82,9 @@ class DoubanPipeline(object):
             exist = self.get_subject(item)
             if not exist:
                 self.save_subject(item)
+                print('新数据入库')
+            else:
+                print('已存在')
         elif isinstance(item, MovieMeta):
             '''
             meta
@@ -87,10 +93,12 @@ class DoubanPipeline(object):
             if not exist:
                 try:
                     self.save_movie_meta(item)
+                    print('***********新数据入库***********')
                 except Exception as e:
                     print(e)
             else:
                 self.update_movie_meta(item)
+                print('***********更新数据*************')
         elif isinstance(item, ArticleItem):
             '''
             ArticleItem
@@ -99,8 +107,12 @@ class DoubanPipeline(object):
             if not exist:
                 try:
                     self.insert_item(item)
+                    print('***********新数据入库***********')
                 except Exception as e:
                     print(e)
+            else:
+                self.update_item(item)
+                print('***********更新数据*************')
         return item
 
 
